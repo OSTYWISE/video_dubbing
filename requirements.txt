@@ -1,12 +1,21 @@
+soundfile
+ffmpeg-python
 torch
+torchaudio
 torchvision
 torchmetrics
+transformers
+pydub
+moviepy
+whisper
+spacy
+scipy
+librosa
 numpy
 tqdm
 matplotlib
 pandas
 wandb
-comet_ml
 hydra-core
 
 black

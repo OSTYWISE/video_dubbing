@@ -1,6 +1,6 @@
 from src.model.aligner import AudioAligner
 from src.model.baseline_model import BaselineModel
-from src.model.dubbing_to_rus import VideoDubber
+from Video_dubbing_project.src.model.dubber import VideoDubber
 
 __all__ = [
     "BaselineModel",

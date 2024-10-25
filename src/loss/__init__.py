@@ -1,1 +1,1 @@
-from src.loss.example import ExampleLoss
+from Video_dubbing_project.src.loss.aligner_loss import AlignerLoss

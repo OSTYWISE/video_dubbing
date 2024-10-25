@@ -12,7 +12,7 @@ class AudioAligner(nn.Module):
     2. Keep information from audio as in translated text (great recognizable speech)
     """
 
-    def __init__(self, fc_input_lenght: int, fc_hidden=None):
+    def __init__(self, fc_input_lenght: int = 1048576, fc_hidden=None):
         """
         Args:
             input_length: number of input features.

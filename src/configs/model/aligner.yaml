@@ -1,0 +1,2 @@
+_target_: src.model.AudioAligner
+fc_input_lenght: 1048576

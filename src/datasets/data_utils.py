@@ -1,8 +1,9 @@
 from itertools import repeat
 
+import torch
 from hydra.utils import instantiate
 
-from src.datasets.collate import collate_fn
+from src.datasets.collate import collate_fn_wrapper
 from src.utils.init_utils import set_worker_seed
 
 
@@ -43,7 +44,9 @@ def move_batch_transforms_to_device(batch_transforms, device):
                 transforms[transform_name] = transforms[transform_name].to(device)
 
 
-def get_dataloaders(config, device):
+def get_dataloaders(
+    config, device, index_dict: dict[str, list[dict[str, torch.Tensor]]]
+):
     """
     Create dataloaders for each of the dataset partitions.
     Also creates instance and batch transforms.
@@ -51,6 +54,8 @@ def get_dataloaders(config, device):
     Args:
         config (DictConfig): hydra experiment config.
         device (str): device to use for batch transforms.
+        index_dict: dict with keys in ["train", "val", "test"].
+            Values are lists that contains dict with "path" and "target_path" for training objects
     Returns:
         dataloaders (dict[DataLoader]): dict containing dataloader for a
             partition defined by key.
@@ -63,7 +68,7 @@ def get_dataloaders(config, device):
     move_batch_transforms_to_device(batch_transforms, device)
 
     # dataset partitions init
-    datasets = instantiate(config.datasets)  # instance transforms are defined inside
+    datasets = instantiate(config.datasets, index_dict=index_dict)  # TODO
 
     # dataloaders init
     dataloaders = {}
@@ -74,15 +79,41 @@ def get_dataloaders(config, device):
             f"The batch size ({config.dataloader.batch_size}) cannot "
             f"be larger than the dataset length ({len(dataset)})"
         )
+        collate_fn = collate_fn_wrapper(config.models.fc_input_lenght)
 
         partition_dataloader = instantiate(
             config.dataloader,
             dataset=dataset,
             collate_fn=collate_fn,
             drop_last=(dataset_partition == "train"),
-            shuffle=(dataset_partition == "train"),
+            shuffle=config.dataloader.shuffle
+            if config.dataloader.shuffle is not None
+            else (dataset_partition == "train"),
             worker_init_fn=set_worker_seed,
         )
         dataloaders[dataset_partition] = partition_dataloader
 
     return dataloaders, batch_transforms
+
+
+def split_and_pad_audio(audio: torch.Tensor, max_length: int):
+    """
+    Split audio into pieces of same length
+    and pad the last one to make all element of the same shape
+
+    Args:
+        audio: 1-dimensional Tensor from audio
+        max_length: spet of cutting/splitting the audio
+    Returns:
+        output: tuple of audio pieces (Tensors) shape of (max_length, )
+    """
+    total_length = audio.shape[0]
+    audio_pieces = torch.split(audio, max_length)
+    if total_length % max_length != 0:
+        remaining_part = audio_pieces[-1]
+        padded_chunk = torch.nn.functional.pad(
+            remaining_part, (0, max_length - remaining_part.shape[0])
+        )
+        audio_pieces = audio_pieces[:-1] + (padded_chunk,)
+
+    return list(audio_pieces)

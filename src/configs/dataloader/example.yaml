@@ -1,4 +1,5 @@
 _target_: torch.utils.data.DataLoader
 batch_size: 10
 num_workers: 2
+shuffle: None
 pin_memory: True

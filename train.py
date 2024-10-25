@@ -34,8 +34,7 @@ def main(config):
         device = config.trainer.device
 
     # setup data_loader instances
-    # batch_transforms should be put on device
-    dataloaders, batch_transforms = get_dataloaders(config, device)
+    dataloaders, batch_transforms = get_dataloaders(config, device, index_dict=None)
 
     # build model architecture, then print to console
     model = instantiate(config.model).to(device)

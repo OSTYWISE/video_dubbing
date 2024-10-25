@@ -112,3 +112,10 @@ outputs/
 .vscode/
 .idea/
 __MACOSX/
+
+
+# data
+data/
+
+# codes
+testing_code.ipynb

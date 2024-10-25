@@ -1,4 +1,5 @@
-_target_: src.model.BaselineModel
-n_feats: 1024
+_target_: src.model.VideoDubber
+fc_input_lenght: 1048576
 fc_hidden: 512
-n_class: 10
+transcriber_size: "tiny"
+src_lang: "en"

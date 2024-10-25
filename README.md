@@ -1,12 +1,13 @@
-# PyTorch Template for DL projects
+# Video dubbing with Audio aligner project
 
 <p align="center">
   <a href="#about">About</a> •
-  <a href="#tutorials">Tutorials</a> •
-  <a href="#examples">Examples</a> •
-  <a href="#installation">Installation</a> •
+  <a href="#audioaligner">AudioAligner</a> •
+  <a href="#work-process">Work process</a> •
+  <a href="#videodubber">VideoDubber</a> •
+  <a href="installation">Installation</a> •
   <a href="#how-to-use">How To Use</a> •
-  <a href="#useful-links">Useful Links</a> •
+  <a href="#possible-problems">Possible problems</a> •
   <a href="#credits">Credits</a> •
   <a href="#license">License</a>
 </p>
@@ -48,10 +49,6 @@ VideoDubber consists of many sequential pre-trained models:
 5. Voice cloning
 6. Aligner
 
-
-## Tutorials
-
-This template utilizes experiment tracking techniques, such as [WandB](https://docs.wandb.ai/) and [Comet ML](https://www.comet.com/docs/v2/), and [Hydra](https://hydra.cc/docs/intro/) for the configuration. It also automatically reformats code and conducts several checks via [pre-commit](https://pre-commit.com/). If you are not familiar with these tools, we advise you to look at the tutorials below:
 
 ## Installation
 

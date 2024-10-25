@@ -14,16 +14,20 @@
 ## About
 
 This repository contains the code for video dubbing. But the main contribution of this repo is the AudioAligner architecture.
+
+## AudioAligner
+
 This architecture takes translated speech from Text-To-Speech model (Vocoder) and align it to original audio with speech.
 
-The model architecture is based on idea of weighted multiple loss as we have 2 goals:
-1. Align translated audio to original one.
-In theory it should also learn the style of speaking, all pauses, silence and intonation.
-2. Keep the information from audio as in translated text (great recognizable speech as output)
+The model has 2 targets (weighted multiple loss) in order to:
+1. Align translated audio to original one (alignment, style, intonation, etc.)
+2. Keep the information from the audio as in translated text (great recognizable speech as output)
 
-For the second problem I use the idea of distillation and train the model to return audios that could be transcribed to correct translated text with large trained Speech-To-Text model
+For the second problem I use the idea of distillation and train the model to return audios that could be transcribed (with STT model) to correct translated text.
 
-And unlike usual DL models, here we want the architecture to be perfectly overfitted (assuming that the weights of each cost function are chosen correctly). That is can either train a large model or apply an untrained model in a single-batch test style to the audio.
+Unlike conventional DL models, there are 2 options to get result:
+- Apply untrained model in a single-batch regime (overfitting is not bad)
+- Training a large model
 
 ## Work process
 
@@ -34,7 +38,7 @@ The project is currently in its early stages of development. Below are the groun
 4. Build VideoDubber that works with large diverse vidoes like movies
 
 
-## VideoDubber:
+## VideoDubber
 
 VideoDubber consists of many sequential pre-trained models:
 1. Audio/Speech Specification and Separation (distinct people, background sounds, music)
@@ -111,7 +115,7 @@ To run inference (evaluate the model or save predictions):
 python3 inference.py HYDRA_CONFIG_ARGUMENTS
 ```
 
-### Possible problems:
+### Possible problems
 
 ```python
 whisper.load_model(’tiny’) -> AttributeError: module 'whisper' has no attribute 'load_model'

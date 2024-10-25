@@ -124,6 +124,7 @@ Translation model documentation: https://github.com/facebookresearch/fairseq/tre
 ## Credits
 
 This template for repo is taken from [pytorch_project_template](https://github.com/Blinorot/pytorch_project_template) repository
+
 Part of the code is adapted from https://github.com/am-sokolov/videodubber?tab=readme-ov-file
 
 
